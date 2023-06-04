@@ -9,6 +9,6 @@ target 'TaskCheck' do
   pod 'FirebaseAuth'
   pod 'FirebaseFirestore'
   pod 'FirebaseStorage'
-
+  pod 'Charts', '~> 3.0'
 
 end

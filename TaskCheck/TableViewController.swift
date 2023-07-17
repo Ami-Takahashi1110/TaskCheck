@@ -16,6 +16,7 @@ struct Task {
     let startDate: Date
     let completionDate: Date
     let progressRate: Float
+    let memo: String
 }
 
 class TableViewController: UITableViewController{
@@ -23,6 +24,9 @@ class TableViewController: UITableViewController{
     // 配列を作成する
     // 項目はタスク名、説明、日数、完了日、進捗率、備考
     var task: [Task] = [] // データを保持する配列
+    var completionDates: [Date] = []
+    var startDates: [Date] = []
+    var completionTask: [Double] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +42,23 @@ class TableViewController: UITableViewController{
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
+    
+    @IBAction func graphButtonAction(_ sender: Any) {
+        // 4. 画面遷移実行
+              performSegue(withIdentifier: "toGraphController", sender: nil)
+    }
+    // segueが動作することをViewControllerに通知するメソッド
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // segueのIDを確認して特定のsegueのときのみ動作させる
+        if segue.identifier == "toGraphController" {
+            // 2. 遷移先のViewControllerを取得
+            let next = segue.destination as? GraphViewController
+            // 3. １で用意した遷移先の変数に値を渡す
+            next?.completionDate = completionDates
+            next?.startDate = startDates
+        }
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -79,19 +100,35 @@ class TableViewController: UITableViewController{
                        let days = document.data()["days"] as? String,
                        let startDate = document.data()["startDate"] as? Date,
                        let completionDate = document.data()["completionDate"] as? Date,
-                       let progressRate = document.data()["progressRate"] as? Float
+                       let progressRate = document.data()["progressRate"] as? Float,
+                       let memo = document.data()["memo"] as? String
                     {
                         let user = Task(taskName: taskName,
                                         explanation: explanation,
                                         days:days,
                                         startDate:startDate,
                                         completionDate:completionDate,
-                                        progressRate:progressRate)
+                                        progressRate:progressRate,
+                                        memo: memo
+                        )
                         self.task.append(user)
+                        self.completionDates.append(completionDate)
+                        self.startDates.append(startDate)
                     }
                 }
                 // TableViewを更新
                 self.tableView.reloadData()
+                // 日付でソートしたタスクから完了率が100パーセントのタスクを取り出すオブジェクトを作成
+                self.task = self.task.sorted(by: { (a, b) -> Bool in
+                        return a.completionDate > b.completionDate
+                    })
+                for data in self.task {
+                    if data.progressRate == 100 {
+                        let differences = data.completionDate.timeIntervalSince(data.startDate)
+                        self.completionTask.append(differences)
+                    }
+                }
+
             }
         }
     }

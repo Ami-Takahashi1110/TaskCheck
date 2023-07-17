@@ -7,14 +7,57 @@
 
 import UIKit
 import Charts
+import FirebaseFirestore
+
 
 class GraphViewController: UIViewController {
-    
-    var chartView: LineChartView!
-    var chartDataSet: LineChartDataSet!
+    // 使用する変数の宣言
+        var chartView: LineChartView!
+        var chartDataSet: LineChartDataSet!
     // 今回使用するサンプルデータ
-        let sampleData = [88.0, 99.0, 93.0, 67.0, 45.0, 72.0, 58.0, 91.0, 81.0]
-    // データを取得する（予定日数、完了日数）
+    var xAxis: [Int] = []
+    var completionDate: [Date] = []
+    var startDate: [Date] = []
+    var progressRate: [Float] = []
+    
+    let calendar = Calendar.current
+
+
+
+    // 縦軸の設定
+    // 1.全タスクの合計工数の配列を作成する(completiondateとstartdateの差分の日数)
+    // デバッグで確認
+    func calculateDifference(startDate: [Date], completionDate: [Date]) -> [TimeInterval] {
+        let differences = zip(startDate, completionDate).map { (start, end) in
+            return end.timeIntervalSince(start)
+        }
+        return differences
+    }
+    // 合計工数の出力
+    
+    // 2.ステータスが完了のタスクの合計工数（progressRate=100）
+    
+    
+    
+    // 横軸の設定
+    // 完了日を取得して昇順にソート（年月まで取得などする）の差分をループ処理で入れる→配列に入れる
+    func sortCompletionDate(){
+        completionDate = completionDate.sorted(by: { (a, b) -> Bool in
+            return a > b
+        })
+        
+        let firstDate = completionDate[0]
+        let firstMonth = Calendar.current.component(.month, from: firstDate)
+        let lastDate = completionDate[completionDate.count - 1]
+        let lastMonth = Calendar.current.component(.month, from: lastDate)
+        
+        for i in stride(from: firstMonth, to: lastMonth, by: 1){
+            xAxis.append(i)
+        }
+    }
+    
+    
+
     
     
     override func viewDidLoad() {

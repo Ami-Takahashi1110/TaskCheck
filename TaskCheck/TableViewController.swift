@@ -19,8 +19,10 @@ struct Task {
     let memo: String
 }
 
-class TableViewController: UITableViewController{
+class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
+    
+    @IBOutlet weak var tableView: UITableView!
     // 配列を作成する
     // 項目はタスク名、説明、日数、完了日、進捗率、備考
     var task: [Task] = [] // データを保持する配列
@@ -30,6 +32,8 @@ class TableViewController: UITableViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
         // セルの登録
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "customCell")
         // データの取得
@@ -61,19 +65,19 @@ class TableViewController: UITableViewController{
     
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 0
     }
     
     
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as!TableViewCell
 
         // userに格納したデータをセルに表示する
@@ -135,7 +139,7 @@ class TableViewController: UITableViewController{
 
 
      // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
          //Return false if you do not want the specified item to be editable.
         return true
     }

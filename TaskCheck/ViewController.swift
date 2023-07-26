@@ -81,12 +81,13 @@ class ViewController: UIViewController {
                 ]
         db.collection("task").addDocument(data: data) { error in
             if let error = error {
-            } else {
                 print("データベースへの登録中にエラーが発生しました")
+            } else {
+                print("データベースへの登録が成功しました")
+                print("data: \(data)")
+                let tableViewController = self.storyboard?.instantiateViewController(withIdentifier: "showTableViewController") as! TableViewController
+                self.present(tableViewController, animated: true, completion: nil)
             }
-            print("データベースへの登録が成功しました")
-            let tableViewController = self.storyboard?.instantiateViewController(withIdentifier: "showTableViewController") as! TableViewController
-            self.present(tableViewController, animated: true, completion: nil)
         }
     }
 }

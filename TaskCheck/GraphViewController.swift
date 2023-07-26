@@ -16,28 +16,25 @@ class GraphViewController: UIViewController {
         var chartDataSet: LineChartDataSet!
     // 今回使用するサンプルデータ
     var xAxis: [Int] = []
+    var yAxisAll: [Double] = []
     var completionDate: [Date] = []
     var startDate: [Date] = []
     var progressRate: [Float] = []
+    
     
     let calendar = Calendar.current
 
 
 
     // 縦軸の設定
-    // 1.全タスクの合計工数の配列を作成する(completiondateとstartdateの差分の日数)
+    // 全タスクの合計工数の配列を作成する(completiondateとstartdateの差分の日数)
     // デバッグで確認
     func calculateDifference(startDate: [Date], completionDate: [Date]) -> [TimeInterval] {
-        let differences = zip(startDate, completionDate).map { (start, end) in
+        let yAxisAll = zip(startDate, completionDate).map { (start, end) in
             return end.timeIntervalSince(start)
         }
-        return differences
+        return yAxisAll
     }
-    // 合計工数の出力
-    
-    // 2.ステータスが完了のタスクの合計工数（progressRate=100）
-    
-    
     
     // 横軸の設定
     // 完了日を取得して昇順にソート（年月まで取得などする）の差分をループ処理で入れる→配列に入れる
@@ -55,15 +52,11 @@ class GraphViewController: UIViewController {
             xAxis.append(i)
         }
     }
-    
-    
-
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // グラフを表示する
-        displayChart(data: sampleData)
+        displayChart(data: yAxisAll)
+        // displayChart(data: )
     }
     func displayChart(data: [Double]) {
         // グラフの範囲を指定する

@@ -60,6 +60,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
             // 3. １で用意した遷移先の変数に値を渡す
             next?.completionDate = completionDates
             next?.startDate = startDates
+        } else if segue.identifier == "toRegistrationSegue" {
+            // 何も行わない（画面の初期化だけ行う）
         }
     }
     
@@ -96,24 +98,9 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
             if let err = err {
                 // エラーダイアログを表示
                 let message = "タスクが入力されていません。登録画面に戻ります。"
-                showErrorDialog(message: message)
+                self.showErrorDialog(message: message)
                 // 登録画面への遷移処理を実行
-                navigateToRegistrationScreen()
-                
-                // エラーダイアログを表示するメソッド
-                func showErrorDialog(message: String) {
-                    let alertController = UIAlertController(title: "エラー", message: message, preferredStyle: .alert)
-                            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                            alertController.addAction(okAction)
-                    self.present(alertController, animated: true, completion: nil)
-                }
-                
-                // 登録画面へ遷移するメソッド
-                func navigateToRegistrationScreen() {
-                    // 登録画面への遷移処理を記述
-                    
-                }
-
+                self.navigateToRegistrationScreen()
                 
             } else {
                 for document in querySnapshot!.documents {
@@ -152,12 +139,32 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         self.completionTask.append(differences)
                     }
                 }
-
-                
-                
             }
         }
     }
+    
+    // エラーダイアログを表示するメソッド
+    func showErrorDialog(message: String) {
+        let alertController = UIAlertController(title: "エラー", message: message, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        // アラートコントローラを閉じる
+        // 画面遷移を遅延させて実行
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            self.navigateToRegistrationScreen()
+        }
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    // 登録画面へ遷移するメソッド
+    func navigateToRegistrationScreen() {
+        // 登録画面への遷移処理を記述
+        self.performSegue(withIdentifier: "toRegistrationSegue", sender: nil)
+    }
+    
+
+    
 
 
      // Override to support conditional editing of the table view.

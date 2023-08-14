@@ -29,7 +29,7 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TaskCheck" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="タスク名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RIb-xk-Gb6">
@@ -199,6 +199,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="lNz-pd-U3I" id="46k-WY-f8M"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="toRegistrationSegue" id="YNh-D4-tKk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B7l-aq-dVH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

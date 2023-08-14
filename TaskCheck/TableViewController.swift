@@ -94,7 +94,27 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let db = Firestore.firestore()
         db.collection("task").getDocuments() { (querySnapshot, err) in
             if let err = err {
-                print("データの取得に失敗しました: \(err)")
+                // エラーダイアログを表示
+                let message = "タスクが入力されていません。登録画面に戻ります。"
+                showErrorDialog(message: message)
+                // 登録画面への遷移処理を実行
+                navigateToRegistrationScreen()
+                
+                // エラーダイアログを表示するメソッド
+                func showErrorDialog(message: String) {
+                    let alertController = UIAlertController(title: "エラー", message: message, preferredStyle: .alert)
+                            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                            alertController.addAction(okAction)
+                    self.present(alertController, animated: true, completion: nil)
+                }
+                
+                // 登録画面へ遷移するメソッド
+                func navigateToRegistrationScreen() {
+                    // 登録画面への遷移処理を記述
+                    
+                }
+
+                
             } else {
                 for document in querySnapshot!.documents {
                     print("\(document.documentID) => \(document.data())")
@@ -133,6 +153,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     }
                 }
 
+                
+                
             }
         }
     }

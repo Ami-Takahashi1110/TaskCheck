@@ -39,30 +39,30 @@ class ViewController: UIViewController {
     @IBAction func setDataButton(_ sender: Any) {
         // テキストフィールドから値を取得
         guard let valueToAddTask = taskTextField.text, !valueToAddTask.isEmpty else {
-            // 値が空の場合は処理しない
+            // 値が空の場合はアラートを表示
                         return
         }
         guard let valueToAddExplanation = explanationTextField.text, !valueToAddExplanation.isEmpty else {
-            // 値が空の場合は処理しない
+            // 値が空の場合はアラートを表示
                         return
         }
         guard let valueToAddDays = daysTextField.text, !valueToAddDays.isEmpty else {
-            // 値が空の場合は処理しない
+            // 値が空の場合はアラートを表示
                         return
         }
         guard let valueToAddStartDate = startDate.text, !valueToAddStartDate.isEmpty else {
+            // 値が空の場合はアラートを表示
+                        return
+        }
+        guard let valueToAddCompleteDate = completeDateTextField.text else {
             // 値が空の場合は処理しない
                         return
         }
-        guard let valueToAddCompleteDate = completeDateTextField.text, !valueToAddCompleteDate.isEmpty else {
+        guard let valueToAddProgressRate = progressRateTextField.text else {
             // 値が空の場合は処理しない
                         return
         }
-        guard let valueToAddProgressDate = progressRateTextField.text, !valueToAddProgressDate.isEmpty else {
-            // 値が空の場合は処理しない
-                        return
-        }
-        guard let valueToAddMemo = memoTextField.text, !valueToAddMemo.isEmpty else {
+        guard let valueToAddMemo = memoTextField.text else {
             // 値が空の場合は処理しない
                         return
         }
@@ -76,7 +76,7 @@ class ViewController: UIViewController {
                     "days": valueToAddDays,
                     "startDate": valueToAddStartDate,
                     "completionDate": valueToAddCompleteDate,
-                    "progressRate": valueToAddProgressDate,
+                    "progressRate": valueToAddProgressRate,
                     "memo": valueToAddMemo
                 ]
         db.collection("task").addDocument(data: data) { error in

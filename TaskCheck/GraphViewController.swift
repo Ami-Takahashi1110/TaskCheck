@@ -17,8 +17,8 @@ class GraphViewController: UIViewController {
     // 今回使用するサンプルデータ
     var xAxis: [Int] = []
     var yAxisAll: [Double] = []
-    var completionDate: [Date] = []
-    var startDate: [Date] = []
+    var completionDate: [String] = []
+    var startDate: [String] = []
     var progressRate: [Float] = []
     
     
@@ -44,13 +44,13 @@ class GraphViewController: UIViewController {
         })
         
         let firstDate = completionDate[0]
-        let firstMonth = Calendar.current.component(.month, from: firstDate)
+        //let firstMonth = Calendar.current.component(.month, from: firstDate)
         let lastDate = completionDate[completionDate.count - 1]
-        let lastMonth = Calendar.current.component(.month, from: lastDate)
+        //let lastMonth = Calendar.current.component(.month, from: lastDate)
         
-        for i in stride(from: firstMonth, to: lastMonth, by: 1){
-            xAxis.append(i)
-        }
+        //for i in stride(from: firstMonth, to: lastMonth, by: 1){
+            //xAxis.append(i)
+        //}
     }
     override func viewDidLoad() {
         super.viewDidLoad()

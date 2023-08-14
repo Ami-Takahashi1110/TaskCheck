@@ -13,9 +13,9 @@ struct Task {
     let taskName: String
     let explanation: String
     let days: String
-    let startDate: Date
-    let completionDate: Date
-    let progressRate: Float
+    let startDate: String
+    let completionDate: String
+    let progressRate: Int
     let memo: String
 }
 
@@ -26,8 +26,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // 配列を作成する
     // 項目はタスク名、説明、日数、完了日、進捗率、備考
     var task: [Task] = [] // データを保持する配列
-    var completionDates: [Date] = []
-    var startDates: [Date] = []
+    var completionDates: [String] = []
+    var startDates: [String] = []
     var completionTask: [Double] = []
     
     override func viewDidLoad() {
@@ -67,14 +67,10 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     // MARK: - Table view data source
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
+    // tableViewで表示するセルの個数（保存されているデータ）を返す
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return task.count
     }
     
     
@@ -83,10 +79,10 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as!TableViewCell
 
         // userに格納したデータをセルに表示する
-        cell.img.image = UIImage(systemName: "swift")
+        //cell.img.image = UIImage(systemName: "swift")
         cell.taskName.text = task[indexPath.row].taskName
         cell.contents.text = task[indexPath.row].explanation
-        cell.progress.progress = task[indexPath.row].progressRate
+        cell.progress.progress = Float(task[indexPath.row].progressRate)
 
         return cell
     }
@@ -109,9 +105,9 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     if let taskName = document.data()["taskName"] as? String,
                        let explanation = document.data()["explanation"] as? String,
                        let days = document.data()["days"] as? String,
-                       let startDate = document.data()["startDate"] as? Date,
-                       let completionDate = document.data()["completionDate"] as? Date,
-                       let progressRate = document.data()["progressRate"] as? Float,
+                       let startDate = document.data()["startDate"] as? String,
+                       let completionDate = document.data()["completionDate"] as? String,
+                       let progressRate = Int(document.data()["progressRate"] as! String),
                        let memo = document.data()["memo"] as? String
                     {
                         let user = Task(taskName: taskName,
@@ -135,8 +131,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     })
                 for data in self.task {
                     if data.progressRate == 100 {
-                        let differences = data.completionDate.timeIntervalSince(data.startDate)
-                        self.completionTask.append(differences)
+                        //let differences = data.completionDate.timeIntervalSince(data.startDate)
+                        //self.completionTask.append(differences)
                     }
                 }
             }

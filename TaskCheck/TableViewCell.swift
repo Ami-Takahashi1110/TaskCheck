@@ -13,8 +13,6 @@ class TableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
-    @IBOutlet weak var img: UIImageView!
     
     @IBOutlet weak var taskName: UILabel!
     
